@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
-} from 'react-router-dom';
-import Profile from './Components/Profile';
-import Password from './Components/Password';
-import PageNotFound from './Components/PageNotFound';
-import Recovery from './Components/Recovery';
-import Reset from './Components/Reset';
-import UserName from './Components/UserName';
-import Register from './Components/Register';
+} from "react-router-dom";
+import Profile from "./Components/Profile";
+import Password from "./Components/Password";
+import PageNotFound from "./Components/PageNotFound";
+import Recovery from "./Components/Recovery";
+import Reset from "./Components/Reset";
+import UserName from "./Components/UserName";
+import Register from "./Components/Register";
 
 // In other words, when you use the AuthorizedUser component in your code, any elements or components that you place between the opening and closing tags of AuthorizedUser will be passed as the children prop to the component.
 // <AuthorizedUser>
@@ -19,11 +19,11 @@ import Register from './Components/Register';
 // The h1 element will be passed as the children prop to the AuthorizedUser component.
 
 const AuthorizedUser = ({ children }) => {
-  const tokens = localStorage.getItem('token');
+  const tokens = localStorage.getItem("token");
 
   if (!tokens) {
     return (
-      <Navigate to={'/'} replace={true}>
+      <Navigate to={"/"} replace={true}>
         {children}
       </Navigate>
     );
@@ -32,28 +32,27 @@ const AuthorizedUser = ({ children }) => {
 };
 
 const UsernameAuthorization = ({ children }) => {
-  const userName = localStorage.getItem('username');
+  const userName = localStorage.getItem("username");
 
   if (!userName) {
-    <Navigate to={'/'} replace={true}>
-      {children}
-    </Navigate>;
+    // Corrected here: We need to `return` the Navigate component
+    return <Navigate to={"/"} replace={true} />;
   }
   return children;
 };
 
-// THIS IS BROWSER ROUTER DEFAULT WORKING BEHAVIOUR SO YOU CAN USE PREVIOUS METHODS ALSO I LIKE THIS METHODS WHY BECAUSE WE CAN CREATE BROWSER ROUTER...
+// THIS IS BROWSER ROUTER DEFAULT WORKING BEHAVIOUR SO YOU CAN USE PREVIOUS METHODS ALSO I LIKE THIS METHODS WHY BECAUSE SO EASY TO ORGANIZE THE ROUTERS BUDDY THAT'S WHY.
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <UserName />,
   },
   {
-    path: '/register',
+    path: "/register",
     element: <Register />,
   },
   {
-    path: '/reset',
+    path: "/reset",
     element: (
       <UsernameAuthorization>
         <Reset />
@@ -61,11 +60,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/recovery',
+    path: "/recovery",
     element: <Recovery />,
   },
   {
-    path: '/profile',
+    path: "/profile",
     element: (
       <AuthorizedUser>
         <Profile />
@@ -73,11 +72,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/password',
+    path: "/password",
     element: <Password />,
   },
   {
-    path: '*',
+    path: "*",
     element: <PageNotFound />,
   },
 ]);
